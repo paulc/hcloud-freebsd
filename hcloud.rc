@@ -8,8 +8,10 @@
 # This rc script enables Hetzner Cloud auto-configuration 
 # at firstboot (https://github.com/paulc/hcloud-freebsd)
 
+. /etc/rc.subr
+
 name="hcloud"
-desc="Auto-configure Hetzner Clour instances"
+desc="Auto-configure Hetzner Cloud instances"
 start_cmd="hcloud_start"
 stop_cmd=":"
 rcvar="hcloud_enable"
@@ -19,6 +21,7 @@ hcloud_start() {
     mkdir /var/hcloud
     cd /var/hcloud
     /usr/local/bin/hcloud
+    echo "OK"
 }
 
 load_rc_config $name
