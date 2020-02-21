@@ -1,0 +1,26 @@
+#!/bin/sh
+#
+# PROVIDE: hcloud
+# REQUIRE: NETWORKING
+# BEFORE: DAEMON
+# KEYWORD: firstboot
+
+# This rc script enables Hetzner Cloud auto-configuration 
+# at firstboot (https://github.com/paulc/hcloud-freebsd)
+
+name="hcloud"
+desc="Auto-configure Hetzner Clour instances"
+start_cmd="hcloud_start"
+stop_cmd=":"
+rcvar="hcloud_enable"
+
+hcloud_start() {
+    echo -n "Staring Hetzner Cloud autoconfiguration: "
+    mkdir /var/hcloud
+    cd /var/hcloud
+    /usr/local/bin/hcloud
+}
+
+load_rc_config $name
+run_rc_command "$1"
+    
