@@ -17,13 +17,16 @@ stop_cmd=":"
 rcvar="hcloud_enable"
 
 hcloud_start() {
-    echo -n "Staring Hetzner Cloud autoconfiguration: "
+    echo -n "Staring Hetzner cloud-config: "
+    # Ensure /var/hcloud directory is clear
+    rm -rf /var/hcloud
     mkdir /var/hcloud
+    # Change directory to /var/hcloud
     cd /var/hcloud
+    # Run cloud-config
     /usr/local/bin/hcloud
     echo "OK"
 }
 
 load_rc_config $name
 run_rc_command "$1"
-    
