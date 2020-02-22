@@ -34,6 +34,10 @@ AUtomated installation of FreeBSD instances is not currently available in the HC
 
 ```shell
 
+# Update system
+freebsd-update fetch --not-running-from-cron
+freebsd-update install --not-running-from-cron
+
 # Bootstrap pkg tool and install required packages
 ASSUME_ALWAYS_YES=yes pkg bootstrap
 pkg update
