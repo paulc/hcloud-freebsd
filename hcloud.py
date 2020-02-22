@@ -4,7 +4,14 @@ import requests
 import json
 import yaml
 import email
+import subprocess
 
+def sysrc(key,val=None):
+	if val:
+		subprocess.run(['/usr/sbin/sysrc','{}={}'.format(key,value)],check=True)
+	else:
+		subprocess.run(['/usr/sbin/sysrc',key],check=True)
+		
 r = requests.get('http://169.254.169.254/hetzner/v1/metadata')
 
 if r.status_code != 200:
