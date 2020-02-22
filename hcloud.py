@@ -22,7 +22,7 @@ def savejson(name,data):
         f.write("\n")
 
 def vendor_data(data):
-    # Handle vendor_data section - we can ignore this but save anyway
+    # Handle vendor_data section - we can ignore this but save anyway
     # Extract multipart-mime files ('hc-boot-script','cloud-config')
     vendor_data = email.message_from_string(data)
     for p in vendor_data.walk():
@@ -49,9 +49,9 @@ def sshkeys(keys):
     ak.chmod(0o600)
 
 def network_config(config):
-    # You might expect all network interfaces to be defined here
-    # but only primary interface data is provided (does not include
-    # private interfaces) - though we go through list anyway
+    # You might expect all network interfaces to be defined here
+    # but only primary interface data is provided (does not include
+    # private interfaces) - though we go through list anyway
     for iface in config:
         # Rename interface from ethXX to vtnetXX
         ifname = iface['name'].replace('eth','vtnet')
@@ -90,7 +90,7 @@ def hcloud_metadata():
     # Handle sections
     for k,v in config.items():
         if k == "vendor_data":
-            vendor_data(config.get(vendor_data,''))
+            vendor_data(v)
         else:
             # Save config section to local directory (usually /var/hcloud)
             savejson(k,v)
@@ -103,7 +103,7 @@ def hcloud_metadata():
 
 def hcloud_userdata():
     # Get instance userdata
-    r = requests.get('http://169.254.169.254/hetzner/v1/metadata')
+    r = requests.get('http://169.254.169.254/hetzner/v1/userdata')
     if r.status_code != 200:
         raise ValueError("Error fetching cloud-config")
 
