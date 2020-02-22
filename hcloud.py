@@ -52,13 +52,13 @@ for k,v in config.items():
 			for iface in v['config']:
 				ifname = iface['name'].replace('eth','vtnet')
 				for net in iface['subnets']:
-					if net['ipv4']:
+					if net,get('ipv4',False):
 						if type == 'dhcp':
 							# Dont configure IPv4 on vtnet0 - configure via DHCP
 							sysrc('ifconfig_{}'.format(ifname),'DHCP')
 						elif type == 'static':
 							pass
-					elif net['ipv6']:
+					elif net.get('ipv6',False):
 						if type == 'static':
 							address,prefix = net['address'].split('/')
 							sysrc('ifconfig_{}_ipv6'.format(ifname),'inet6 {} prefixlen {}'.format(address,prefix))
