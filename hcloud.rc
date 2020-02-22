@@ -18,11 +18,11 @@ rcvar="hcloud_enable"
 
 hcloud_start() {
     echo -n "Staring Hetzner cloud-config: "
+    # Ensure that we clear SSHD host keys
+    rm -f /etc/ssh/ssh_host_*_key /etc/ssh/ssh_host_*_key.pub
     # Ensure /var/hcloud directory is clear
     rm -rf /var/hcloud
     mkdir /var/hcloud
-    # Ensure that we clear SSHD host keys
-    rm -f /etc/ssh/ssh_host_*_key /etc/ssh/ssh_host_*_key.pub
     # Change directory to /var/hcloud
     cd /var/hcloud
     # Run cloud-config
