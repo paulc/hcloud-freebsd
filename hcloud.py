@@ -6,7 +6,7 @@ import yaml
 
 def sysrc(key,val=None):
 	if val:
-		subprocess.run(['/usr/sbin/sysrc','{}={}'.format(key,value)],check=True)
+		subprocess.run(['/usr/sbin/sysrc','{}={}'.format(key,val)],check=True)
 	else:
 		subprocess.run(['/usr/sbin/sysrc',key],check=True)
 
