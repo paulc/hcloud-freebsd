@@ -33,6 +33,15 @@ AUtomated installation of FreeBSD instances is not currently available in the HC
 * From the installation shell:
 
 ```shell
+# 
+# You can setup the template automatically by downloading the `install.sh`
+# script from this repository (a git.io short link is available).
+#
+# Ensure you review the script and edit as necessary before running.
+#
+# fetch -o install.sh https://git.io/Jv0sU
+# sh ./install.sh
+#
 
 # Update system
 freebsd-update fetch --not-running-from-cron | cat
@@ -69,6 +78,7 @@ touch /firstboot
 # Poweroff machine
 shutdown -p now
 ```
+
 * From the Hetzner cloud console 
   - **Unmount ISO**
   - From Snapshots menu **Take Snapshot** (name _freebas12.1-template_ or similar)
