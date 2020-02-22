@@ -111,6 +111,7 @@ def hcloud_userdata():
     userdata = pathlib.Path('./user-data')
     with userdata.open('w') as f:
         f.write(r.text)
+        f.write('\n')
     userdata.chmod(0o700)
     subprocess.run(['./user-data'],check=True)
 
