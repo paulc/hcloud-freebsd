@@ -79,12 +79,12 @@ def network_config(config):
     runrc('routing',False)  # Ignore errors from existing routes
 
 def hcloud_metadata():
-    # Get instance metadata
+    #  Get instance metadata
     r = requests.get('http://169.254.169.254/hetzner/v1/metadata')
     if r.status_code != 200:
         raise ValueError("Error fetching cloud-config")
 
-    # Parse YAML
+    # Parse YAML
     config = yaml.safe_load(r.text)
 
     # Handle sections
@@ -102,12 +102,12 @@ def hcloud_metadata():
                 network_config(v['config'])
 
 def hcloud_userdata():
-    # Get instance userdata
+    # Get instance userdata
     r = requests.get('http://169.254.169.254/hetzner/v1/userdata')
     if r.status_code != 200:
         raise ValueError("Error fetching cloud-config")
 
-    # Write to 'user-data'
+    # Write to 'user-data'
     userdata = pathlib.Path('./user-data')
     with userdata.open('w') as f:
         f.write(r.text)
