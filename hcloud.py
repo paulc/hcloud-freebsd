@@ -40,7 +40,7 @@ for k,v in config.items():
 			sysrc('hostname',v)
 			runrc('hostname')
 		elif k == 'public-keys':
-			sshdir = pathlib('/root/.ssh')
+			sshdir = pathlib.Path('/root/.ssh')
 			sshdir.mkdir(mode=0o700,exist_ok=True)
 			ak = p / 'authorized_keys'
 			with ak.open('w') as f:
@@ -54,7 +54,6 @@ for k,v in config.items():
 				for net in iface['subnets']:
 					if net,get('ipv4',False):
 						if type == 'dhcp':
-							# Dont configure IPv4 on vtnet0 - configure via DHCP
 							sysrc('ifconfig_{}'.format(ifname),'DHCP')
 						elif type == 'static':
 							pass
