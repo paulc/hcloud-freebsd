@@ -36,25 +36,31 @@ Automated installation of FreeBSD instances is not currently available in the HC
 ```shell
 #!/bin/sh
 # 
-# You can setup the template automatically by downloading the `install.sh`
-# script from this repository (a git.io short link is available).
+# hcloud-freebsd/config.sh
+#
+# This script configures a clean FreeBSD install to support Hetzner cloud
+# auto-provisioning.
+#
+# You can either run the commands manually or setup the system automatically 
+# by downloading the this script (a git.io short link is available).
 #
 # Note that at this stage we dont have the CA root cert bundle installed so 
-# need to install using `--no-verify-hostname` and `--no-verify-peer`. This
-# is (in theory) subject to a MITM attack so ensure you review the script 
-# before running. Alternatively you might want to install the ca_root_nss
-# package before doing this (though this will need you to bootstrap pkg)
+# need to run fetch using `--no-verify-peer`. This is potentially subject to 
+# a MITM attack so ensure you review the script before running. Alternatively 
+# you might want to install the ca_root_nss package before doing this (though 
+# this will need you to bootstrap pkg).
 #
-# fetch -o config.sh --no-verify-peer https://git.io/Jv0sU
-# sh ./config.sh
+# fetch -o config.sh --no-verify-peer https://git.io/Jv0sU sh ./config.sh
 #
 # _OR_
 #
-# ASSUME_ALWAYS_YES=yes pkg bootstrap
-# pkg update
+# ASSUME_ALWAYS_YES=yes pkg bootstrap pkg update
 # pkg install -y ca_root_nss
-# fetch -o config.sh https://git.io/Jv0sU
-# sh ./config.sh
+# fetch -o config.sh https://git.io/Jv0sU sh ./config.sh
+#
+# The system will be powered off once the script has run and you should then 
+# detach the ISO image and snapshot the instance (which can then be used as
+# a template)
 
 # Update system
 freebsd-update fetch --not-running-from-cron | cat
@@ -82,7 +88,7 @@ sysrc sshd_flags="-o PermitRootLogin=prohibit-password"
 # Set root shell to /bin/sh
 pw usermod root -s /bin/sh
 
-# Disable root password login if required
+# Disable root password login (if required)
 pw usermod root -h -
 
 # Create /firstboot flag for rc(8)
@@ -92,9 +98,11 @@ touch /firstboot
 shutdown -p now
 ```
 
+* The instance will power off at the end of the installation
+
 * From the Hetzner cloud console 
   - **Unmount ISO**
-  - From Snapshots menu **Take Snapshot** (name _freebas12.1-template_ or similar)
+  - From Snapshots menu **Take Snapshot**
   - When the snapshot has been created you can now use this as a template to start new cloud instances
   
 
