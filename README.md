@@ -30,7 +30,8 @@ Automated installation of FreeBSD instances is not currently available in the HC
   - Chose security hardening options (I usually select all of these)
   - Do **not** add users to the system unless you specifically want these as part of the base image
   - Exit installer making shre you select **Yes** to drop to **shell** to complete configuration
-* From the installation shell:
+  
+* From the installation shell follow the instructions in config.sh (either manually or by downloading the script):
 
 ```shell
 #!/bin/sh
