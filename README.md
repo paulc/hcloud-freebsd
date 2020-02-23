@@ -71,13 +71,15 @@ follows:
 # you might want to install the ca_root_nss package before doing this (though 
 # this will need you to bootstrap pkg).
 #
-# fetch -o config.sh --no-verify-peer https://git.io/Jv0sU sh ./config.sh
+# fetch -o config.sh --no-verify-peer https://git.io/Jv0sU
+# sh ./config.sh
 #
 # _OR_
 #
 # ASSUME_ALWAYS_YES=yes pkg bootstrap pkg update
 # pkg install -y ca_root_nss
-# fetch -o config.sh https://git.io/Jv0sU sh ./config.sh
+# fetch -o config.sh https://git.io/Jv0sU
+# sh ./config.sh
 #
 # The system will be powered off once the script has run and you should then 
 # detach the ISO image and snapshot the instance (which can then be used as
