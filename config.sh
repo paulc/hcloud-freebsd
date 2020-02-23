@@ -59,4 +59,11 @@ pw usermod root -h -
 touch /firstboot
 
 # Poweroff machine
-shutdown -p now
+echo "Configuration completed - detach ISO and create snapshot."
+read -p "Do you want to power-off instance? [yn]: " yn
+case $yn in
+    [Yy]*) shutdown -p now; 
+           break;;
+    *)     ;;
+esac
+
