@@ -45,7 +45,7 @@ Automated installation of FreeBSD instances is not currently available in the HC
 # before running. Alternatively you might want to install the ca_root_nss
 # package before doing this (though this will need you to bootstrap pkg)
 #
-# fetch -o config.sh --no-verify-hostname --no-verify-peer https://git.io/Jv0sU
+# fetch -o config.sh --no-verify-peer https://git.io/Jv0sU
 # sh ./config.sh
 #
 # _OR_
