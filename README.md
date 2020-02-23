@@ -90,7 +90,7 @@ freebsd-update install --not-running-from-cron
 # Bootstrap pkg tool and install required packages
 ASSUME_ALWAYS_YES=yes pkg bootstrap
 pkg update
-pkg install -y python3 py37-pyaml py37-requests ca_root_nss
+pkg install -y python3 py37-pyaml ca_root_nss
 
 # Install hcloud utility
 fetch -o /usr/local/bin/hcloud https://raw.githubusercontent.com/paulc/hcloud-freebsd/master/hcloud.py

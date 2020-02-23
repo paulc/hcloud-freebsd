@@ -25,7 +25,7 @@ hcloud_start() {
     mkdir /var/hcloud
     # Change directory to /var/hcloud
     cd /var/hcloud
-    # Run cloud-config
+    # Run cloud-config
     /usr/local/bin/hcloud
     echo "OK"
 }

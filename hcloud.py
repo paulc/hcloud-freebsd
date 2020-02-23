@@ -1,7 +1,6 @@
 #!/usr/local/bin/python3
 
-import email,json,pathlib,subprocess
-import requests
+import email,gzip,json,pathlib,subprocess,urllib.request,urllib.error
 import yaml
 
 def sysrc(key,val=None):
@@ -61,7 +60,7 @@ def network_config(config):
                 if subnet['type'] == 'dhcp':
                     sysrc('ifconfig_{}'.format(ifname),'DHCP')
             elif subnet.get('ipv6',False):
-                # Configure static IPv6 address 
+                # Configure static IPv6 address 
                 if subnet['type'] == 'static':
                     address,prefix = subnet['address'].split('/')
                     sysrc('ifconfig_{}_ipv6'.format(ifname),
@@ -74,18 +73,18 @@ def network_config(config):
                                 capture_output=True,check=True)
     for ifname in ifaces.stdout.decode('ascii').split():
         sysrc('ifconfig_{}'.format(ifname),'DHCP')
-    # We now reconfigure network interfaces and routing
+    # We now reconfigure network interfaces and routing
     runrc('netif')
     runrc('routing',False)  # Ignore errors from existing routes
 
 def hcloud_metadata():
-    #  Get instance metadata
-    r = requests.get('http://169.254.169.254/hetzner/v1/metadata')
-    if r.status_code != 200:
-        raise ValueError("Error fetching cloud-config")
-
-    # Parse YAML
-    config = yaml.safe_load(r.text)
+    # Get instance metadata
+    try:
+        with urllib.request.urlopen('http://169.254.169.254/hetzner/v1/metadata') as r:
+            # Parse YAML
+            config = yaml.safe_load(r.read())
+    except urllib.error.URLError as e:
+        raise ValueError("Error fetching instance metadata: {}".format(e.reason))
 
     # Handle sections
     for k,v in config.items():
@@ -103,17 +102,21 @@ def hcloud_metadata():
 
 def hcloud_userdata():
     # Get instance userdata
-    r = requests.get('http://169.254.169.254/hetzner/v1/userdata')
-    if r.status_code != 200:
-        raise ValueError("Error fetching cloud-config")
-
-    # Write to 'user-data'
-    userdata = pathlib.Path('./user-data')
-    with userdata.open('w') as f:
-        f.write(r.text)
-        f.write('\n')
-    userdata.chmod(0o700)
-    subprocess.run(['./user-data'],check=True)
+    try:
+        with urllib.request.urlopen('http://169.254.169.254/hetzner/v1/userdata') as r:
+            # Write to 'user-data'
+            userdata = pathlib.Path('./user-data')
+            with userdata.open('wb') as f:
+                # Check for GZ compressed 
+                if r.peek()[:3] == b'\x1f\x8b\x08':
+                    f.write(gzip.decompress(r.read()))
+                else:
+                    f.write(r.read())
+            userdata.chmod(0o700)
+            if userdata.stat().st_size > 0:
+                subprocess.run(['./user-data'],check=True)
+    except urllib.error.URLError as e:
+        raise ValueError("Error fetching instance userdata: {}".format(e.reason))
 
 if __name__ == '__main__':
     # Get metadata
