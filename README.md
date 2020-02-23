@@ -8,11 +8,11 @@ This repository enables auto-provisioning of FreeBSD instances on
 [Hetzner Cloud](https://www.hetzner.com/cloud).
 
 Currently only Linux auto-provisioning is enabled by default however by
-initially manually configuring a FreeBSD instance manually and adding the
-`hcloud` utility and `rc.d` script included in this repository, it is possible
-to create a snapshot which can be used as a base instance and supports the
-normal auto-configuration functions available either in the cloud console or
-via the api or cli tools. 
+initially manually configuring a FreeBSD instance and adding the `hcloud`
+utility and `rc.d` script included in this repository, it is possible to create
+a snapshot which can be used as a base instance and supports the normal
+auto-configuration functions available either in the cloud console or via the
+api/cli tools. 
 
 ## Installation
 
