@@ -12,10 +12,10 @@ Currently only Linux auto-provisioning is enabled by default however by initiall
 
 ### OS Installation
 
-AUtomated installation of FreeBSD instances is not currently available in the HCloud console, however it is possible to manually configure an instance as follows:
+Automated installation of FreeBSD instances is not currently available in the HCloud console, however it is possible to manually configure an instance as follows:
 
-* Create a VM instance using the [cloud console](https://console.hetzner.cloud/projects). Pick a server type that matches the one you want to provision as a template (usually the smallest SSD type - currently CX11 - as you can resize instances upwards). The base image and location doesn't matter at this stage. 
-* When the server has booted select the instance in the cloud console and attach a FreeBSD ISO image (select _ISO Images_ and search for an appropriate FreeBSD instance - currently 12.1)
+* Create a VM instance using the [cloud console](https://console.hetzner.cloud/projects). Pick a server type that matches the one you want to provision as a template (usually the smallest SSD type - currently CX11 - as you can resize instances upwards). The base image doesn't matter at this stage. 
+* When the server has booted select the instance in the cloud console and attach a FreeBSD ISO image (select _ISO Images_ and search for an appropriate FreeBSD instance - 12.1 is currently supported)
 * From the cloud console open the device console (**>_**) and reboot server.
 * The FreeBSD installer should now start and you can install FreeBSD as normal. See the [FreeBSD handbook](https://www.freebsd.org/doc/handbook/bsdinstall.html) for details. The recommended options for installation are:
   - Appropriate keymap/hostname
