@@ -22,8 +22,7 @@ hcloud_start() {
     rm -f /etc/ssh/ssh_host_*_key /etc/ssh/ssh_host_*_key.pub
     # Ensure /var/hcloud directory is clear
     rm -rf /var/hcloud
-    umask 077
-    mkdir /var/hcloud
+    mkdir -m 700 /var/hcloud
     # Change directory to /var/hcloud
     cd /var/hcloud
     # Run cloud-config
