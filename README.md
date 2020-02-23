@@ -154,7 +154,8 @@ the `rc/hcloud` script on firstboot and the server configured.
     written to disk and run directly so must be a valid script for the 
     target system - in particular you will almost certainly just want to
     use a plain /bin/sh script (first line should be `#!/bin/sh`). Multipart
-    files and cloud-config (`#cloud-config`) data are not supported.
+    files and cloud-config (`#cloud-config`) data are not supported (GZ
+    compressed files _are_ supported).
 
 * Note that additional volumes are not auto-configured but will be
   automatically detected by the kernel (`/dev/da[123...]`) so could be
