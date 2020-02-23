@@ -25,8 +25,9 @@ hcloud_start() {
     mkdir /var/hcloud
     # Change directory to /var/hcloud
     cd /var/hcloud
+    umask 077
     # Run cloud-config
-    /usr/local/bin/hcloud
+    /usr/local/bin/hcloud 2>&1 | tee hcloud.$(date +%Y%m%d-%H%M%S).log
     echo "OK"
 }
 

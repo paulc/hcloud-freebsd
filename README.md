@@ -140,7 +140,7 @@ esac
 
 ### Creating Instances
 
-* To create a new instance click on **Add Server** as normal select the
+* To create a new instance click on **Add Server** as normal and select the
   appropriate snapshot from the  **Images / Snapshots** tab (you can also
   view the the snapshot page and create a new server from there).
 
