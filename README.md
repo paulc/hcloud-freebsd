@@ -4,27 +4,48 @@ Hetzner Cloud auto-provisioning for FreeBSD
 
 ## Introduction
 
-This repository enables auto-provisioning of FreeBSD instances on [Hetzner Cloud](https://www.hetzner.com/cloud).
+This repository enables auto-provisioning of FreeBSD instances on 
+[Hetzner Cloud](https://www.hetzner.com/cloud).
 
-Currently only Linux auto-provisioning is enabled by default however by initially manually configuring a FreeBSD instance manually and adding the `hcloud` utility and rc.d script included in this repository, it is possible to create a snapshot which can be used as a base instance and supports the normal auto-configuration functions available either in the cloud console or via the api or cli tools. 
+Currently only Linux auto-provisioning is enabled by default however by
+initially manually configuring a FreeBSD instance manually and adding the
+`hcloud` utility and `rc.d` script included in this repository, it is possible
+to create a snapshot which can be used as a base instance and supports the
+normal auto-configuration functions available either in the cloud console or
+via the api or cli tools. 
 
 ## Installation
 
 ### OS Installation
 
-Automated installation of FreeBSD instances is not currently available in the HCloud console, however it is possible to manually configure an instance as follows:
+Automated installation of FreeBSD instances is not currently available for
+Hetzner Cloud, however it is possible to manually configure an instance as
+follows:
 
-* Create a VM instance using the [cloud console](https://console.hetzner.cloud/projects). Pick a server type that matches the one you want to provision as a template (usually the smallest SSD type - currently CX11 - as you can resize instances upwards). The base image doesn't matter at this stage. 
-* When the server has booted select the instance in the cloud console and attach a FreeBSD ISO image (select _ISO Images_ and search for an appropriate FreeBSD instance - 12.1 is currently supported)
+* Create a VM instance using the [cloud console](https://console.hetzner.cloud/projects). 
+  Pick a server type that matches the one you want to provision as a template
+  (usually the smallest SSD type - currently CX11 - as you can resize instances
+  upwards). The base image doesn't matter at this stage. 
+
+* When the server has booted select the instance in the cloud console and
+  attach a FreeBSD ISO image (select _ISO Images_ and search for an appropriate
+  FreeBSD instance - 12.1 is currently supported)
+
 * From the cloud console open the device console (**>_**) and reboot server.
-* The FreeBSD installer should now start and you can install FreeBSD as normal. See the [FreeBSD handbook](https://www.freebsd.org/doc/handbook/bsdinstall.html) for details. The recommended options for installation are:
+
+* The FreeBSD installer should now start and you can install FreeBSD as normal.
+  See the [FreeBSD handbook](https://www.freebsd.org/doc/handbook/bsdinstall.html) for details.
+  The recommended options for installation are:
+
   - Appropriate keymap/hostname
   - Default install components (kernel-dbg/lib32)
-  - Configure networking (**vtnet0/IPv4/DHCP**) - don't worry about configuring IPv6 at the moment (will be configured for cloned instances through cloud-config)
+  - Configure networking (**vtnet0/IPv4/DHCP**) - don't worry about configuring 
+    IPv6 at the moment (will be configured for cloned instances through cloud-config)
   - Select distrobution mirror - default is fine (ftp://ftp.freebsd.org) 
   - Select  **Auto (UFS)** partition type, **Entire Disk**, **GPT**, and accept default partitions
   - _(Distribution files should now install)_
-  - Set root password (this is only needed for initial configuration - password login will be disabled for instances)
+  - Set root password (this is only needed for initial configuration - password login will be 
+    disabled for instances)
   - Select appropriate Time Zone and Date/Time
   - Select default services (at least **sshd**)
   - Chose security hardening options (I usually select all of these)
@@ -113,7 +134,7 @@ shutdown -p now
   view the the snapshot page and create a new server from there).
 
 * Select the options as normal on the **Add Server** page. These will be picked up by
-the rc/hcloud script on firstboot and where possible the server configured. 
+the `rc/hcloud` script on firstboot and the server configured. 
 
 * The script supports auto-configuration of the following settings:
 
@@ -129,7 +150,7 @@ the rc/hcloud script on firstboot and where possible the server configured.
     files and cloud-config (`#cloud-config`) data are not supported.
 
 * Note that additional volumes are not auto-configured but will be
-  automatically detected by the kernel (/dev/da[123...]) so could be
+  automatically detected by the kernel (`/dev/da[123...]`) so could be
   configured/mounted using the user-data script. 
 
 * It is also possible to configure new instances via the API or hcloud 
