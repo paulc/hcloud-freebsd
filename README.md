@@ -83,6 +83,8 @@ follows:
 # detach the ISO image and snapshot the instance (which can then be used as
 # a template)
 
+set -e
+
 # Update system
 freebsd-update fetch --not-running-from-cron | cat
 freebsd-update install --not-running-from-cron
