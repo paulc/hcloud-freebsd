@@ -103,6 +103,36 @@ shutdown -p now
 * From the Hetzner cloud console 
   - **Unmount ISO**
   - From Snapshots menu **Take Snapshot**
-  - When the snapshot has been created you can now use this as a template to start new cloud instances
-  
+  - When the snapshot has been created you can now use this as a template to
+    start new cloud instances
 
+### Creating Instances
+
+* To create a new instance click on **Add Server** as normal select the
+  appropriate snapshot from the  **Images / Snapshots** tab (you can also
+  view the the snapshot page and create a new server from there).
+
+* Select the options as normal on the **Add Server** page. These will be picked up by
+the rc/hcloud script on firstboot and where possible the server configured. 
+
+* The script supports auto-configuration of the following settings:
+
+  - **hostname**
+  - **network interfaces** (iprimary interface IPv4 and IPv6 addresses,
+    additional private interfaces will be autodetected and configured to run
+    DHCP) 
+  - **ssh keys** will be added to root user
+  - **userdata** script will be run. Note that the userdata script will be 
+    written to disk and run directly so must be a valid script for the 
+    target system - in particular you will almost certainly just want to
+    use a plain /bin/sh script (first line should be `#!/bin/sh`). Multipart
+    files and cloud-config (`#cloud-config`) data are not supported.
+
+* Note that additional volumes are not auto-configured but will be
+  automatically detected by the kernel (/dev/da[123...]) so could be
+  configured/mounted using the user-data script. 
+
+* It is also possible to configure new instances via the API or hcloud 
+  utility - eg:
+
+  - `hcloud server create --image <imageid> --name <name> --user-data-from-file <userdata>  --ssh-key <keyname> --type <type> --location <location>`
