@@ -20,6 +20,10 @@ def savejson(name,data):
         json.dump(data,f,indent=4)
         f.write("\n")
 
+def msg(s):
+    print("\n{}\n".format(s))
+    sys.stdout.flush()
+
 def vendor_data(data):
     # Handle vendor_data section - we can ignore this but save anyway
     # Extract multipart-mime files ('hc-boot-script','cloud-config')
@@ -33,15 +37,13 @@ def vendor_data(data):
 
 def hostname(name):
     # Set hostname
-    print("[+] Setting hostname")
-    sys.stdout.flush()
+    msg("[+] Setting hostname")
     sysrc('hostname',name)
     runrc('hostname')
 
 def sshkeys(keys):
     # Write SSH keys to /root/.ssh/authorized_keys
-    print("[+] Adding SSH keys")
-    sys.stdout.flush()
+    msg("[+] Adding SSH keys")
     sshdir = pathlib.Path('/root/.ssh')
     sshdir.mkdir(mode=0o700,exist_ok=True)
     ak = sshdir / 'authorized_keys'
@@ -55,8 +57,7 @@ def network_config(config):
     # You might expect all network interfaces to be defined here
     # but only primary interface data is provided (does not include
     # private interfaces) - though we go through list anyway
-    print("[+] Configuring network")
-    sys.stdout.flush()
+    msg("[+] Configuring network")
     for iface in config:
         # Rename interface from ethXX to vtnetXX
         ifname = iface['name'].replace('eth','vtnet')
@@ -84,8 +85,7 @@ def network_config(config):
     for ifname in ifaces.stdout.decode('ascii').split():
         sysrc('ifconfig_{}'.format(ifname),'DHCP')
     # We now reconfigure network interfaces and routing
-    print("[+] Restarting network")
-    sys.stdout.flush()
+    msg("[+] Restarting network")
     runrc('netif')
     runrc('routing',False)  # Ignore errors from existing routes
 
@@ -115,8 +115,7 @@ def hcloud_metadata():
 def hcloud_userdata():
     # Get instance userdata
     try:
-        print("[+] Running userdata script")
-        sys.stdout.flush()
+        msg("[+] Running userdata script")
         with urllib.request.urlopen('http://169.254.169.254/hetzner/v1/userdata') as r:
             # Write to 'user-data'
             userdata = pathlib.Path('./user-data')
