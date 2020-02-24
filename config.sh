@@ -46,8 +46,8 @@ chmod 755 /usr/local/bin/hcloud
 
 # Install hcloud rc script
 mkdir -p /usr/local/etc/rc.d
-fetch -o /etc/rc.d/hcloud https://raw.githubusercontent.com/paulc/hcloud-freebsd/master/etc/rc.d/hcloud
-chmod 755 /etc/rc.d/hcloud
+fetch -o /usr/local/etc/rc.d/hcloud https://raw.githubusercontent.com/paulc/hcloud-freebsd/master/etc/rc.d/hcloud
+chmod 755 /usr/local/etc/rc.d/hcloud
 
 # Enable hcloud service
 sysrc hcloud_enable=YES
