@@ -1,6 +1,6 @@
 #!/usr/local/bin/python3
 
-import email,gzip,json,pathlib,subprocess,urllib.request,urllib.error
+import email,gzip,json,pathlib,subprocess,sys,urllib.request,urllib.error
 import yaml
 
 def sysrc(key,val=None):
@@ -34,12 +34,14 @@ def vendor_data(data):
 def hostname(name):
     # Set hostname
     print("[+] Setting hostname")
+    sys.stdout.flush()
     sysrc('hostname',name)
     runrc('hostname')
 
 def sshkeys(keys):
     # Write SSH keys to /root/.ssh/authorized_keys
     print("[+] Adding SSH keys")
+    sys.stdout.flush()
     sshdir = pathlib.Path('/root/.ssh')
     sshdir.mkdir(mode=0o700,exist_ok=True)
     ak = sshdir / 'authorized_keys'
@@ -54,6 +56,7 @@ def network_config(config):
     # but only primary interface data is provided (does not include
     # private interfaces) - though we go through list anyway
     print("[+] Configuring network")
+    sys.stdout.flush()
     for iface in config:
         # Rename interface from ethXX to vtnetXX
         ifname = iface['name'].replace('eth','vtnet')
@@ -82,6 +85,7 @@ def network_config(config):
         sysrc('ifconfig_{}'.format(ifname),'DHCP')
     # We now reconfigure network interfaces and routing
     print("[+] Restarting network")
+    sys.stdout.flush()
     runrc('netif')
     runrc('routing',False)  # Ignore errors from existing routes
 
@@ -112,6 +116,7 @@ def hcloud_userdata():
     # Get instance userdata
     try:
         print("[+] Running userdata script")
+        sys.stdout.flush()
         with urllib.request.urlopen('http://169.254.169.254/hetzner/v1/userdata') as r:
             # Write to 'user-data'
             userdata = pathlib.Path('./user-data')
