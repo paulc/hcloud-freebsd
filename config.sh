@@ -40,11 +40,13 @@ pkg update
 pkg install -y python3 py37-pyaml ca_root_nss
 
 # Install hcloud utility
-fetch -o /usr/local/bin/hcloud https://raw.githubusercontent.com/paulc/hcloud-freebsd/master/hcloud.py
+mkdir -p /usr/local/bin
+fetch -o /usr/local/bin/hcloud https://raw.githubusercontent.com/paulc/hcloud-freebsd/master/bin/hcloud
 chmod 755 /usr/local/bin/hcloud
 
 # Install hcloud rc script
-fetch -o /etc/rc.d/hcloud https://raw.githubusercontent.com/paulc/hcloud-freebsd/master/hcloud.rc
+mkdir -p /usr/local/etc/rc.d
+fetch -o /etc/rc.d/hcloud https://raw.githubusercontent.com/paulc/hcloud-freebsd/master/etc/rc.d/hcloud
 chmod 755 /etc/rc.d/hcloud
 
 # Enable hcloud service
