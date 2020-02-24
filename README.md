@@ -165,6 +165,13 @@ the `rc/hcloud` script on firstboot and the server configured.
   automatically detected by the kernel (`/dev/da[123...]`) so could be
   configured/mounted using the user-data script. 
 
+* A copy of the cloud configuration parameters (split by section), the 
+  user-data script, and an installation log are saved in the /var/hcloud
+  directory.
+
+* The rc(8) system will automatically delete the /firstboot flag after
+  the first-boot so the script will only run once.
+
 * It is also possible to configure new instances via the API or hcloud 
   utility - eg:
 
