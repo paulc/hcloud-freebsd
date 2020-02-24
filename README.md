@@ -89,7 +89,7 @@ set -e
 
 # Update system
 freebsd-update fetch --not-running-from-cron | cat
-freebsd-update install --not-running-from-cron
+freebsd-update install --not-running-from-cron || echo "No updates available"
 
 # Bootstrap pkg tool and install required packages
 ASSUME_ALWAYS_YES=yes pkg bootstrap
@@ -97,12 +97,14 @@ pkg update
 pkg install -y python3 py37-pyaml ca_root_nss
 
 # Install hcloud utility
-fetch -o /usr/local/bin/hcloud https://raw.githubusercontent.com/paulc/hcloud-freebsd/master/hcloud.py
+mkdir -p /usr/local/bin
+fetch -o /usr/local/bin/hcloud https://raw.githubusercontent.com/paulc/hcloud-freebsd/master/bin/hcloud
 chmod 755 /usr/local/bin/hcloud
 
 # Install hcloud rc script
-fetch -o /etc/rc.d/hcloud https://raw.githubusercontent.com/paulc/hcloud-freebsd/master/hcloud.rc
-chmod 755 /etc/rc.d/hcloud
+mkdir -p /usr/local/etc/rc.d
+fetch -o /usr/local/etc/rc.d/hcloud https://raw.githubusercontent.com/paulc/hcloud-freebsd/master/etc/rc.d/hcloud
+chmod 755 /usr/local/etc/rc.d/hcloud
 
 # Enable hcloud service
 sysrc hcloud_enable=YES
