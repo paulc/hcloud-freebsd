@@ -17,7 +17,7 @@ stop_cmd=":"
 rcvar="hcloud_enable"
 
 hcloud_start() {
-    echo -n "Staring Hetzner cloud-config: "
+    echo "Staring Hetzner cloud-config: "
     # Ensure that we clear SSHD host keys
     rm -f /etc/ssh/ssh_host_*_key /etc/ssh/ssh_host_*_key.pub
     # Ensure /var/hcloud directory is clear
@@ -27,7 +27,7 @@ hcloud_start() {
     cd /var/hcloud
     # Run cloud-config
     /usr/local/bin/hcloud 2>&1 | tee hcloud.$(date +%Y%m%d-%H%M%S).log
-    echo "OK"
+    echo "cloud-config done"
 }
 
 load_rc_config $name

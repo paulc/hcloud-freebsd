@@ -69,8 +69,12 @@ def network_config(config):
                     sysrc('ifconfig_{}_ipv6'.format(ifname),
                         'inet6 {} prefixlen {}'.format(address,prefix))
                 if subnet.get('gateway',False):
-                    sysrc('ipv6_defaultrouter',
-                            subnet['gateway'].replace('eth','vtnet'))
+                    # Occasionally we dont get a correct link-local address
+                    if subnet['gateway'].startswith('fe80:'):
+                        gw_addr = subnet['gateway'].split('%')[0] + '%' + ifname
+                        sysrc('ipv6_defaultrouter', gw_addr)
+                    else:
+                        sysrc('ipv6_defaultrouter', subnet['gateway'])
     # We now configure any unconfigured interfaces
     ifaces = subprocess.run(['/sbin/ifconfig','-ld','ether'],
                                 capture_output=True,check=True)
