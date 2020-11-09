@@ -37,7 +37,9 @@ freebsd-update install --not-running-from-cron || echo "No updates available"
 # Bootstrap pkg tool and install required packages
 ASSUME_ALWAYS_YES=yes pkg bootstrap
 pkg update
-pkg install -y python3 py37-pyaml ca_root_nss
+
+# Get latest pyyaml (will install python3 as dependency)
+pkg install -y $(pkg search -q  -S name '^py3[0-9]+-yaml$' | sort | tail -1) ca_root_nss
 
 # Install hcloud utility
 mkdir -p /usr/local/bin
