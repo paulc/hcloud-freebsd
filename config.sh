@@ -31,8 +31,12 @@
 set -e
 
 # Update system
-freebsd-update fetch --not-running-from-cron | cat
-freebsd-update install --not-running-from-cron || echo "No updates available"
+if which hbsd-update; then  # HardenedBSD support
+    hbsd-update
+else
+    freebsd-update fetch --not-running-from-cron | cat
+    freebsd-update install --not-running-from-cron || echo "No updates available"
+fi
 
 # Bootstrap pkg tool and install required packages
 ASSUME_ALWAYS_YES=yes pkg bootstrap

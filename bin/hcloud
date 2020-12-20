@@ -12,7 +12,7 @@ def sysrc(key,val=None):
 
 def runrc(name,check=True):
     # Rerun service initialisation (picking up new rc.sonf values)
-    subprocess.run(['/usr/sbin/service',name,'start'],check=check)
+    subprocess.run(['/usr/sbin/service',name,'restart'],check=check)
     
 def savejson(name,data):
     # Save section as JSON
