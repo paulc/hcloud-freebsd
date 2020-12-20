@@ -20,17 +20,17 @@
 # _OR_
 #
 # ASSUME_ALWAYS_YES=yes pkg bootstrap pkg update
-# pkg install -y ca_root_nss
+# pkg install -y ca_root_nss
 # fetch -o config.sh https://git.io/Jv0sU
 # sh ./config.sh
 #
 # The system will be powered off once the script has run and you should then 
 # detach the ISO image and snapshot the instance (which can then be used as
-# a template)
+# a template)
 
 set -e
 
-# Update system
+# Update system
 if which hbsd-update; then  # HardenedBSD support
     hbsd-update
 else

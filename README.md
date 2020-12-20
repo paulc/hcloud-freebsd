@@ -31,7 +31,8 @@ follows:
 
 * When the server has booted select the instance in the cloud console and
   attach a FreeBSD ISO image (select _ISO Images_ and search for an appropriate
-  FreeBSD instance - 12.1 is currently supported)
+  FreeBSD instance). The script will also support HardenedBSD however you will
+  need to ask support to make the ISO available.
 
 * From the cloud console open the device console (**>_**) and reboot server.
 
@@ -54,7 +55,7 @@ follows:
   - Do **not** add users to the system unless you specifically want these as part of the base image
   - Exit installer making shre you select **Yes** to drop to **shell** to complete configuration
   
-* From the installation shell follow the instructions in config.sh (either manually or by downloading the script):
+* From the installation shell follow the instructions in [config.sh](https://github.com/paulc/hcloud-freebsd/blob/master/config.sh) (either manually or by downloading the script):
 
 * The instance will power off at the end of the installation
 
