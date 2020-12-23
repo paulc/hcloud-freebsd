@@ -16,7 +16,9 @@
 # (Note that the original image will be deleted)
 #
 
-set -o pipefail errexit nounset
+set -o pipefail 
+set -o errexit 
+set -o nounset
 
 : ${LOCATION:=fsn1}
 : ${TYPE:=cx11}
