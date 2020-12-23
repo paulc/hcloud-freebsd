@@ -45,7 +45,7 @@ follows:
   - Configure networking (**vtnet0/IPv4/DHCP**) - don't worry about configuring 
     IPv6 at the moment (will be configured for cloned instances through cloud-config)
   - Select distrobution mirror - default is fine (ftp://ftp.freebsd.org) 
-  - Select  **Auto (UFS)** partition type, **Entire Disk**, **GPT**, and accept default partitions
+  - Select  **Auto (UFS)** partition type, **Entire Disk**, **GPT**, and accept default partitions (it is also possible to use ZFS is needed - though UFS might be more suitable for low-memory instances). 
   - _(Distribution files should now install)_
   - Set root password (this is only needed for initial configuration - password login will be 
     disabled for instances)
@@ -93,8 +93,13 @@ the `rc/hcloud` script on firstboot and the server configured.
   configured/mounted using the user-data script. 
 
 * If needed it is possible to grow the FS for larger instances automatically
-  via the **userdata** script (the normal process would be `gpart recover` /
-  `gpart add`)
+  via the **userdata** script. It should be possible to use `rc.d/growfs`
+  (needs `growfs_enable=YES` in `rc.conf` and the root partition to be the last
+  partition). ALternatively it is posisble to use the additional space to add
+  an additional FS (eg. for ZFS) from the `userdata` script.  It is possible to
+  check if the image has been installed onto a larger sized instance by running
+  `gpart show da0 | grep -qs CORRUPT` and then `gpart recover` / `gpart add`
+  etc.
 
 * A copy of the cloud configuration parameters (split by section), the 
   user-data script, and an installation log are saved in the /var/hcloud
