@@ -93,13 +93,14 @@ the `rc/hcloud` script on firstboot and the server configured.
   configured/mounted using the user-data script. 
 
 * If needed it is possible to grow the FS for larger instances automatically
-  via the **userdata** script. It should be possible to use `rc.d/growfs`
+  via the **userdata** script. It should also be possible to use `rc.d/growfs`
   (needs `growfs_enable=YES` in `rc.conf` and the root partition to be the last
-  partition). ALternatively it is posisble to use the additional space to add
-  an additional FS (eg. for ZFS) from the `userdata` script.  It is possible to
-  check if the image has been installed onto a larger sized instance by running
-  `gpart show da0 | grep -qs CORRUPT` and then `gpart recover` / `gpart add`
-  etc.
+  partition) although I haven't tested this. 
+
+* Alternatively it is posisble to use the additional space to add an additional
+  FS (eg. for ZFS) from the userdata script.  You can check if the image has
+  been installed onto a larger sized instance by running `gpart show da0 | grep
+  -qs CORRUPT` and then `gpart recover` / `gpart add` etc.
 
 * A copy of the cloud configuration parameters (split by section), the 
   user-data script, and an installation log are saved in the /var/hcloud
