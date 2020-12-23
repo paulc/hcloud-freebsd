@@ -111,13 +111,13 @@ the `rc/hcloud` script on firstboot and the server configured.
 ### Maintaining Images
 
 * To maintain images (run freebsd-update/update pkgs etc) a couple of 
-  example scripts are provides in the /utils directory. 
+  example scripts are provides in the **/util** directory. 
 
-  - [update.sh](https://github.com/paulc/hcloud-freebsd/blob/master/utils/update.sh) 
+  - [update.sh](https://github.com/paulc/hcloud-freebsd/blob/master/util/update.sh) 
     will automatically run basic OS/pkg updates on the image and then resave 
     (deleting original)
 
-  - [patch.sh](https://github.com/paulc/hcloud-freebsd/blob/master/utils/patch.sh) 
+  - [patch.sh](https://github.com/paulc/hcloud-freebsd/blob/master/util/patch.sh) 
     will do the same but first launch a single use sshd instance on port 9022
     to allow interactive configuration
 
