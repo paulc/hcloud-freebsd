@@ -45,7 +45,7 @@ follows:
   - Configure networking (**vtnet0/IPv4/DHCP**) - don't worry about configuring 
     IPv6 at the moment (will be configured for cloned instances through cloud-config)
   - Select distrobution mirror - default is fine (ftp://ftp.freebsd.org) 
-  - Select  **Auto (UFS)** partition type, **Entire Disk**, **GPT**, and accept default partitions (it is also possible to use ZFS is needed - though UFS might be more suitable for low-memory instances). 
+  - Select  **Auto (UFS)** partition type, **Entire Disk**, **GPT**, and accept default partitions (it is also possible to use ZFS if prefered - though UFS might be more suitable for low-memory instances). 
   - _(Distribution files should now install)_
   - Set root password (this is only needed for initial configuration - password login will be 
     disabled for instances)
