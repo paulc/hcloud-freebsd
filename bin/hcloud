@@ -135,5 +135,14 @@ def hcloud_userdata():
 if __name__ == '__main__':
     # Get metadata
     hcloud_metadata()
+    # Try to get fqdn from cloud-config
+    try:
+        with f as open("var/hcloud/cloud-config")
+            cloud_config = yaml.safe_load(f)
+            fqdn = cloud_config.get("fqdn")
+            if fqdn:
+                hostname(fqdn)
+    except:
+        pass
     # Get userdate
     hcloud_userdata()
