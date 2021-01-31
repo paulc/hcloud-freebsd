@@ -137,7 +137,7 @@ if __name__ == '__main__':
     hcloud_metadata()
     # Try to get fqdn from cloud-config
     try:
-        with open("var/hcloud/cloud-config") as f:
+        with open("/var/hcloud/cloud-config") as f:
             cloud_config = yaml.safe_load(f)
             fqdn = cloud_config.get("fqdn")
             if fqdn:
