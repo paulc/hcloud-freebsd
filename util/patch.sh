@@ -31,6 +31,7 @@ TS=$(date +%Y%m%d-%H%M%S)
 NAME="update-${TS}"
 
 echo "+++ When server starts SSH to port 9022 and update system:"
+echo "+++ (Make sure you're not keeping a persistent session open (-o ControlPersist=no)
 
 
 hcloud server create --location ${LOCATION} --type ${TYPE} --image ${IMAGE} --name ${NAME} --ssh-key ${SSHKEY} --user-data-from-file - <<'EOM'
