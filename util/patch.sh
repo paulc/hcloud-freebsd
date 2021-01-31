@@ -30,6 +30,9 @@ set -o nounset
 TS=$(date +%Y%m%d-%H%M%S)
 NAME="update-${TS}"
 
+echo "+++ When server starts SSH to port 9022 and update system:"
+
+
 hcloud server create --location ${LOCATION} --type ${TYPE} --image ${IMAGE} --name ${NAME} --ssh-key ${SSHKEY} --user-data-from-file - <<'EOM'
 #!/bin/sh
 ( service sshd onekeygen
