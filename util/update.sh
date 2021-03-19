@@ -26,6 +26,8 @@ set -o nounset
 
 TS=$(date +%Y%m%d-%H%M%S)
 NAME="update-${TS}"
+DESCRIPTION=$(hcloud image describe -o format='{{.Description}}' ${IMAGE})
+BASE_DESCRIPTION=$(echo $DESCRIPTION | sed -Ee 's/-[0-9]{8}-[0-9]{6}$//')
 
 hcloud server create --location ${LOCATION} --type ${TYPE} --image ${IMAGE} --name ${NAME} --user-data-from-file - <<'EOM'
 #!/bin/sh
@@ -51,7 +53,7 @@ done
 
 printf "\n"
 
-hcloud server create-image --description "FreeBSD-12.2-base-${TYPE}-${TS}" --type snapshot ${NAME}
+hcloud server create-image --description "${BASE_DESCRIPTION}-${TS}" --type snapshot ${NAME}
 
 hcloud server delete ${NAME}
 

@@ -29,9 +29,11 @@ set -o nounset
 
 TS=$(date +%Y%m%d-%H%M%S)
 NAME="update-${TS}"
+DESCRIPTION=$(hcloud image describe -o format='{{.Description}}' ${IMAGE})
+BASE_DESCRIPTION=$(echo $DESCRIPTION | sed -Ee 's/-[0-9]{8}-[0-9]{6}$//')
 
 echo "+++ When server starts SSH to port 9022 and update system:"
-echo "+++ (Make sure you're not keeping a persistent session open (-o ControlPersist=no)
+echo "+++ (Make sure you're not keeping a persistent session open (-o ControlPersist=no)"
 
 
 hcloud server create --location ${LOCATION} --type ${TYPE} --image ${IMAGE} --name ${NAME} --ssh-key ${SSHKEY} --user-data-from-file - <<'EOM'
@@ -53,14 +55,14 @@ EOM
 
 printf "Waiting for server shutdown"
 
-while [ $(hcloud server describe -o format='{{.Status}}' $NAME) != "off" ]; do
+while [ "$(hcloud server describe -o format='{{.Status}}' $NAME)" != "off" ]; do
     printf "."
     sleep 1
 done
 
 printf "\n"
 
-hcloud server create-image --description "FreeBSD-12.2-base-${TYPE}-${TS}" --type snapshot ${NAME}
+hcloud server create-image --description "${BASE_DESCRIPTION}-${TS}" --type snapshot ${NAME}
 
 hcloud server delete ${NAME}
 
