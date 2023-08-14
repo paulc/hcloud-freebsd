@@ -14,7 +14,7 @@ a snapshot which can be used as a base instance and supports the normal
 auto-configuration functions available either in the cloud console or via the
 api/cli tools. 
 
-### *** Note that currently FreeBSD doesn't work on CPX (AMD/EPYC) instances - only CP (XEON) ***
+_Note that currently FreeBSD 12.X doesn't boot on CPX (AMD/EPYC) instances - only CP (XEON). FreeBSD 13.X DOES boot however._
 
 ## Installation
 
