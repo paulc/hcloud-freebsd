@@ -59,7 +59,10 @@ chmod 755 /usr/local/etc/rc.d/hcloud
 sysrc hcloud_enable=YES
 
 # Allow root login with SSH key
-sysrc sshd_flags="-o PermitRootLogin=prohibit-password"
+sysrc sshd_flags="-o AuthenticationMethods=publickey -o PermitRootLogin=prohibit-password"
+
+# Expand root device on boot
+sysrc growfs_enable=YES
 
 # Set root shell to /bin/sh
 pw usermod root -s /bin/sh

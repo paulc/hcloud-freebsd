@@ -20,6 +20,8 @@ api/cli tools.
 
 ### OS Installation
 
+#### To install on ARM64 machines (cax__) see [README-ARM64.md](./README-ARM64.md)
+
 Automated installation of FreeBSD instances is not currently available for
 Hetzner Cloud, however it is possible to manually configure an instance as
 follows:

@@ -20,12 +20,23 @@
 
 set -o pipefail 
 set -o errexit 
-set -o nounset
 
 : ${LOCATION:=fsn1}
 : ${TYPE:=cx11}
-: ${IMAGE?ERROR: Must specify IMAGE}
-: ${SSHKEY?ERROR: Must specify SSHKEY}
+
+if [ -z "${IMAGE}" ]; then
+    echo "\nERROR: Must specify IMAGE\n"
+    hcloud image list --type snapshot
+    exit 1
+fi
+
+if [ -z "${SSHKEY}" ]; then
+    echo "\nERROR: Must specify SSHKEY\n"
+    hcloud ssh-key list
+    exit 1
+fi
+
+set -o nounset
 
 TS=$(date +%Y%m%d-%H%M%S)
 NAME="update-${TS}"
