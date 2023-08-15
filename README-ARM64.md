@@ -81,7 +81,7 @@ d.  Create EFI flash images
     dd if=/dev/zero of=efi-varstore.img bs=1M count=64
     dd if=/usr/share/qemu-efi-aarch64/QEMU_EFI.fd of=efi.img conv=notrunc
 
-5.  Boot installer from QEMU
+e.  Boot installer from QEMU
 
     qemu-system-aarch64 \
       -machine virt,gic-version=max \
@@ -96,17 +96,17 @@ d.  Create EFI flash images
       -drive file=efi-varstore.img,format=raw,if=pflash \
       -nic user,model=virtio-net-pci
 
-7.  Follow installer prompts as normal - when done drop into shell 
+f.  Follow installer prompts as normal - when done drop into shell 
 
-    # Avoid virtio_random.ko bug
-    sysrc devmatch_blacklist="virtio_random.ko" 
+    sysrc devmatch_blacklist="virtio_random.ko" # Avoid virtio_random.ko bug
 
-    # Follow normal installation instructions in config.sh
+g.  Follow normal installation instructions in config.sh
+
     fetch -o /tmp/config.sh https://raw.githubusercontent.com/paulc/hcloud-freebsd/master/config.sh
     sh -v /tmp/config.sh
 
 
-8.  Shutdown and exit QEMU (C-a x)
+h.  Shutdown and exit QEMU (C-a x)
 
-9.  Smapshot the instance
+i.  Smapshot the instance
 
