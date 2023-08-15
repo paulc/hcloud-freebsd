@@ -22,7 +22,6 @@ a.  On the existing FreeBSD host download the appropriate FreeBSD raw VM image (
 
 b.  Mount the image as a loopback device 
 
-    ```
     unxz FreeBSD-13.2-RELEASE-arm64-aarch64.raw.xz
     mdconfig FreeBSD-13.2-RELEASE-amd64.raw 
     mount /dev/md0p4 /mnt
@@ -30,7 +29,6 @@ b.  Mount the image as a loopback device
     umask 077
     mkdir /mnt/root/.ssh
     echo SSH_PUB_KEY > /mnt/root/.ssh/authorized_keys
-    ```
 
     (Note: replace SSH_PUB_KEY with your ssh public key - eg. contents of .ssh/id_ed25519.pub)
 
