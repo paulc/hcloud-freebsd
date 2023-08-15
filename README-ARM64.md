@@ -28,19 +28,17 @@ b.  Mount the image as a loopback device
     printf 'sshd_enable="YES"\nsshd_flags="-o PermitRootLogin=yes"\ndevmatch_blacklist="virtio_random.ko"\n' | tee -a /mnt/etc/rc.conf
     umask 077
     mkdir /mnt/root/.ssh
-    echo SSH_PUB_KEY > /mnt/root/.ssh/authorized_keys
+    echo "$SSH_PUB_KEY" > /mnt/root/.ssh/authorized_keys
 
-    (Note: replace SSH_PUB_KEY with your ssh public key - eg. contents of .ssh/id_ed25519.pub)
+(Note: replace SSH_PUB_KEY with your ssh public key - eg. contents of .ssh/id_ed25519.pub)
 
 c.  Make any other necessary changes to the base image (eg. growfs_enable="NO" if you want to add a ZFS partition instead of expanding the UFS partition))
 
 d.  Unmount the image and recompress
 
-    ```
     umount /mnt
     mdconfig -d -u 0
     xz FreeBSD-13.2-RELEASE-amd64.raw 
-    ```
 
 e.  Make sure that the image available (http/ftp) - (eg. python3 -m http.server)
 
@@ -48,22 +46,18 @@ f.  Boot the Hetzner ARM64 server into rescue mode and connect via SSH
 
 g.  Download and write the image directly to the VM disc 
 
-    ```
     curl http://.... | unxz > /dev/sda
-    ```
 
 h.  Reboot and connect to the server using SSH 
 
 i.  Delete installation ssh keys/logs etc
 
-    ```
     rm -f /var/hcloud/*
     rm -f /etc/ssh/*key*
     rm -f /root/.ssh/authorized_keys
     truncate -s0 /var/log/*
     sysrc -x ifconfig_vtnet0_ipv6 ipv6_defaultrouter
     touch /firstboot
-    ```
 
 j.  Follow normal installation instructions in config.sh
 
@@ -75,27 +69,20 @@ a.  Boot the VM into rescue mode and connect using SSH
 
 b.  Install qemu-system-arm
 
-    ```
     apt install -y qemu-system-arm qemu-efi-aarch64
-    ```
 
 c.  Download ARM installer 
 
-    ```
     curl -Lo freebsd.iso https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/13.2/FreeBSD-13.2-RELEASE-arm64-aarch64-bootonly.iso
-    ```
 
 d.  Create EFI flash images
 
-    ```
     dd if=/dev/zero of=efi.img bs=1M count=64
     dd if=/dev/zero of=efi-varstore.img bs=1M count=64
     dd if=/usr/share/qemu-efi-aarch64/QEMU_EFI.fd of=efi.img conv=notrunc
-    ```
 
 5.  Boot installer from QEMU
 
-    ```
     qemu-system-aarch64 \
         -machine virt,gic-version=max \
         -nographic \
@@ -108,20 +95,15 @@ d.  Create EFI flash images
         -drive file=efi.img,format=raw,if=pflash \
         -drive file=efi-varstore.img,format=raw,if=pflash \
         -nic user,model=virtio-net-pci
-    ```
 
 6.  Follow installer prompts as normal - when done drop into shell 
 
-    ```
     # Avoid virtio_random.ko bug
     sysrc devmatch_blacklist="virtio_random.ko" 
-    ```
 
-    ```
     # Follow normal installation instructions in config.sh
     fetch -o /tmp/config.sh https://raw.githubusercontent.com/paulc/hcloud-freebsd/master/config.sh
     sh -v /tmp/config.sh
-    ```
 
 
 7.  Shutdown and exit QEMU (C-a x)
