@@ -83,7 +83,7 @@ d.  Create EFI flash images
 
 5.  Boot installer from QEMU
 
-    qemu-system-aarch64 \
+    ```qemu-system-aarch64 \
     -machine virt,gic-version=max \
     -nographic \
     -m 1024M \
@@ -94,7 +94,7 @@ d.  Create EFI flash images
     -device virtio-blk,drive=drive1 \
     -drive file=efi.img,format=raw,if=pflash \
     -drive file=efi-varstore.img,format=raw,if=pflash \
-    -nic user,model=virtio-net-pci
+    -nic user,model=virtio-net-pci```
 
 7.  Follow installer prompts as normal - when done drop into shell 
 
