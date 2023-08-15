@@ -63,6 +63,8 @@ j.  Follow normal installation instructions in config.sh
 
 # QEMU install
 
+#### _Note: This method doesnt boot with UFS install (looks like generated FS is corrupt but difficult to diagnose as console doesnt work) - for a UFS install you currently need to use the FreeBSD VM image option (see above). (ZFS install appears to work fine)_
+
 The QEMU install option is a bit more complex however does allow you to customise the install (in particular if you want to install on ZFS root)
 
 a.  Boot the VM into rescue mode and connect using SSH
