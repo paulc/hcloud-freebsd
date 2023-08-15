@@ -88,10 +88,10 @@ e.  Boot installer from QEMU
       -nographic \
       -m 1024M \
       -cpu max \
-      -drive file=freebsd.iso,if=none,id=drive0,cache=writeback \
-      -device virtio-blk,drive=drive0,bootindex=0 \
-      -drive file=/dev/sda,format=raw,if=none,id=drive1,cache=writeback \
-      -device virtio-blk,drive=drive1 \
+      -drive file=/dev/sda,format=raw,if=none,id=drive0,cache=writeback \
+      -device virtio-blk,drive=drive0 \
+      -drive file=freebsd.iso,if=none,id=drive1,cache=writeback \
+      -device virtio-blk,drive=drive1,bootindex=0 \
       -drive file=efi.img,format=raw,if=pflash \
       -drive file=efi-varstore.img,format=raw,if=pflash \
       -nic user,model=virtio-net-pci
