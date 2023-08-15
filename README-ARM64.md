@@ -84,19 +84,19 @@ d.  Create EFI flash images
 5.  Boot installer from QEMU
 
     qemu-system-aarch64 \
-       -machine virt,gic-version=max \
-       -nographic \
-       -m 1024M \
-       -cpu max \
-       -drive file=freebsd.iso,if=none,id=drive0,cache=writeback \
-       -device virtio-blk,drive=drive0,bootindex=0 \
-       -drive file=/dev/sda,format=raw,if=none,id=drive1,cache=writeback \
-       -device virtio-blk,drive=drive1 \
-       -drive file=efi.img,format=raw,if=pflash \
-       -drive file=efi-varstore.img,format=raw,if=pflash \
-       -nic user,model=virtio-net-pci
+    -machine virt,gic-version=max \
+    -nographic \
+    -m 1024M \
+    -cpu max \
+    -drive file=freebsd.iso,if=none,id=drive0,cache=writeback \
+    -device virtio-blk,drive=drive0,bootindex=0 \
+    -drive file=/dev/sda,format=raw,if=none,id=drive1,cache=writeback \
+    -device virtio-blk,drive=drive1 \
+    -drive file=efi.img,format=raw,if=pflash \
+    -drive file=efi-varstore.img,format=raw,if=pflash \
+    -nic user,model=virtio-net-pci
 
-6.  Follow installer prompts as normal - when done drop into shell 
+7.  Follow installer prompts as normal - when done drop into shell 
 
     # Avoid virtio_random.ko bug
     sysrc devmatch_blacklist="virtio_random.ko" 
@@ -106,7 +106,7 @@ d.  Create EFI flash images
     sh -v /tmp/config.sh
 
 
-7.  Shutdown and exit QEMU (C-a x)
+8.  Shutdown and exit QEMU (C-a x)
 
-8.  Smapshot the instance
+9.  Smapshot the instance
 
