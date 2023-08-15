@@ -77,6 +77,10 @@ c.  Download ARM installer
 
     curl -Lo freebsd.iso https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/13.2/FreeBSD-13.2-RELEASE-arm64-aarch64-bootonly.iso
 
+or
+
+    curl -Lo freebsd.iso https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/13.2/FreeBSD-13.2-RELEASE-arm64-aarch64-disc1.iso
+
 d.  Create EFI flash images
 
     dd if=/dev/zero of=efi.img bs=1M count=64
