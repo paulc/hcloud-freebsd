@@ -79,7 +79,6 @@ sysrc growfs_enable=YES
 rm -f /etc/ssh/*key*
 rm -f /root/.ssh/authorized_keys
 truncate -s0 /var/log/*
-sysrc -x ifconfig_vtnet0_ipv6 ipv6_defaultrouter
 
 # Set root shell to /bin/sh
 pw usermod root -s /bin/sh
