@@ -59,15 +59,32 @@ chmod 755 /usr/local/etc/rc.d/hcloud
 sysrc hcloud_enable=YES
 
 # Allow root login with SSH key
+sysrc sshd_enable="YES"
 sysrc sshd_flags="-o AuthenticationMethods=publickey -o PermitRootLogin=prohibit-password"
+
+# Clear tmp
+sysrc clear_tmp_enable="YES"
+
+# Disable sendmail and remote syslogd socket
+sysrc syslogd_flags="-ss"
+sysrc sendmail_enable="NONE"
+
+# Sync time on boot
+sysrc ntpdate_enable="YES"
 
 # Expand root device on boot
 sysrc growfs_enable=YES
 
+# Clean keys/logs
+rm -f /etc/ssh/*key*
+rm -f /root/.ssh/authorized_keys
+truncate -s0 /var/log/*
+sysrc -x ifconfig_vtnet0_ipv6 ipv6_defaultrouter
+
 # Set root shell to /bin/sh
 pw usermod root -s /bin/sh
 
-# Disable root password login (if required)
+# Disable root password login 
 pw usermod root -h -
 
 # Create /firstboot flag for rc(8)
