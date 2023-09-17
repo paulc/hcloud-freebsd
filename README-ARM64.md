@@ -12,8 +12,8 @@ rescue system).
 
 # FreeBSD VM image
 
-We can use the officiel FreeBSD VM image to install the system - however we do
-need to patch the image before writing to the VM disc (see
+We can use the official FreeBSD VM image to install the system - however we do
+need to patch this before writing to thw VM disc (see
 https://gist.github.com/pandrewhk/2d62664bfb74a504b7f4a894fc85eb97) 
 
 To patch the image you will need an existing FreeBSD host (any architecture).
