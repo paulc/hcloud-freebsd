@@ -13,24 +13,26 @@ rescue system).
 # FreeBSD VM image
 
 We can use the officiel FreeBSD VM image to install the system - however we do
-need to patch this before writing to thw VM disc (see
+need to patch the image before writing to the VM disc (see
 https://gist.github.com/pandrewhk/2d62664bfb74a504b7f4a894fc85eb97) 
 
 To patch the image you will need an existing FreeBSD host (any architecture).
 
-a.  On the existing FreeBSD host download the appropriate FreeBSD raw VM image (eg.  https://download.freebsd.org/releases/VM-IMAGES/13.2-RELEASE/aarch64/Latest/FreeBSD-13.2-RELEASE-arm64-aarch64.raw.xz)
+a.  On the existing FreeBSD host download the appropriate FreeBSD raw VM image 
+
+    curl https://download.freebsd.org/releases/VM-IMAGES/13.2-RELEASE/aarch64/Latest/FreeBSD-13.2-RELEASE-arm64-aarch64.raw.xz)
 
 b.  Mount the image as a loopback device 
 
     unxz FreeBSD-13.2-RELEASE-arm64-aarch64.raw.xz
-    mdconfig FreeBSD-13.2-RELEASE-amd64.raw 
-    mount /dev/md0p4 /mnt
+    mdconfig -u1 FreeBSD-13.2-RELEASE-amd64.raw 
+    mount /dev/md1p4 /mnt
     printf 'sshd_enable="YES"\nsshd_flags="-o PermitRootLogin=yes"\ndevmatch_blacklist="virtio_random.ko"\n' | tee -a /mnt/etc/rc.conf
     umask 077
     mkdir /mnt/root/.ssh
-    echo "$SSH_PUB_KEY" > /mnt/root/.ssh/authorized_keys
+    echo "${SSH_PUB_KEY?}" > /mnt/root/.ssh/authorized_keys
 
-(Note: replace SSH_PUB_KEY with your ssh public key - eg. contents of .ssh/id_ed25519.pub)
+(Note: you need to set the SSH_PUB_KEY env var to your ssh public key - eg. contents of .ssh/id_ed25519.pub)
 
 c.  Make any other necessary changes to the base image (eg. growfs_enable="NO" if you want to add a ZFS partition instead of expanding the UFS partition))
 
@@ -50,16 +52,16 @@ g.  Download and write the image directly to the VM disc
 
 h.  Reboot and connect to the server using SSH 
 
-i.  Delete installation ssh keys/logs etc
+i.  Remove buggy virtio_random driver
 
-    rm -f /var/hcloud/*
-    rm -f /etc/ssh/*key*
-    rm -f /root/.ssh/authorized_keys
-    truncate -s0 /var/log/*
-    sysrc -x ifconfig_vtnet0_ipv6 ipv6_defaultrouter
-    touch /firstboot
+    sysrc devmatch_blacklist="virtio_random.ko" # Avoid virtio_random.ko bug
 
 j.  Follow normal installation instructions in config.sh
+
+    fetch -o /tmp/config.sh https://raw.githubusercontent.com/paulc/hcloud-freebsd/master/config.sh
+    sh -v /tmp/config.sh
+
+#### Note: another option is to just install the distribution image directly onto the disc and then use the QEMU option below (dont attach ISO drive) to configure the system (this avoids having to patch the image first)
 
 # QEMU install
 
@@ -94,13 +96,14 @@ e.  Boot installer from QEMU
       -nographic \
       -m 1024M \
       -cpu max \
+      -device virtio-net-pci,netdev=nic \ 
+      -netdev user,id=nic,hostfwd=tcp:127.0.0.1:2022-:22 \ # Only really needed for booting live image
+      -drive file=efi.img,format=raw,if=pflash \
+      -drive file=efi-varstore.img,format=raw,if=pflash \
       -drive file=/dev/sda,format=raw,if=none,id=drive0,cache=writeback \
       -device virtio-blk,drive=drive0 \
       -drive file=freebsd.iso,if=none,id=drive1,cache=writeback \
-      -device virtio-blk,drive=drive1,bootindex=0 \
-      -drive file=efi.img,format=raw,if=pflash \
-      -drive file=efi-varstore.img,format=raw,if=pflash \
-      -nic user,model=virtio-net-pci
+      -device virtio-blk,drive=drive1,bootindex=0
 
 f.  Follow installer prompts as normal - when done drop into shell 
 
@@ -111,8 +114,12 @@ g.  Follow normal installation instructions in config.sh
     fetch -o /tmp/config.sh https://raw.githubusercontent.com/paulc/hcloud-freebsd/master/config.sh
     sh -v /tmp/config.sh
 
-
 h.  Shutdown and exit QEMU (C-a x)
 
 i.  Smapshot the instance
 
+# Rescue system 
+
+You can also use QEMU as a rescue system (use the Live CD rather than Installer
+option when the ISO boots) or to boot the VM directly (remove the ISO
+device/drive).

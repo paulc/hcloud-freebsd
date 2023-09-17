@@ -8,21 +8,10 @@
 # You can either run the commands manually or setup the system automatically 
 # by downloading the this script (a git.io short link is available).
 #
-# Note that at this stage we dont have the CA root cert bundle installed so 
-# need to run fetch using `--no-verify-peer`. This is potentially subject to 
-# a MITM attack so ensure you review the script before running. Alternatively 
-# you might want to install the ca_root_nss package before doing this (though 
-# this will need you to bootstrap pkg).
-#
-# fetch -o config.sh --no-verify-peer https://git.io/Jv0sU
+# fetch -o config.sh https://github.com/paulc/hcloud-freebsd/raw/master/config.sh
 # sh ./config.sh
 #
-# _OR_
-#
-# ASSUME_ALWAYS_YES=yes pkg bootstrap pkg update
-# pkg install -y ca_root_nss
-# fetch -o config.sh https://git.io/Jv0sU
-# sh ./config.sh
+# (Note that the CA root cert bundle is now installed by default)
 #
 # The system will be powered off once the script has run and you should then 
 # detach the ISO image and snapshot the instance (which can then be used as
