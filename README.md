@@ -20,7 +20,8 @@ _Note that currently FreeBSD 12.X doesn't boot on CPX (AMD/EPYC) instances - onl
 
 ### OS Installation
 
-#### To install on ARM64 machines (cax__) see [README-ARM64.md](./README-ARM64.md)
+#### To install FreeBSD 13 on ARM64 machines (cax__) see [README-ARM64.md](./README-ARM64.md). 
+#### Note: This isnt necessary for FreeBSD 14 (ISO is available from ISO menu and normal installation works fine)
 
 Automated installation of FreeBSD instances is not currently available for
 Hetzner Cloud, however it is possible to manually configure an instance as
